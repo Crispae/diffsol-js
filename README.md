@@ -1,14 +1,8 @@
-# diffsol-wasm
+# diffsol-wasm  
 
-JavaScript/WebAssembly bindings for [diffsol](https://github.com/martinjrobins/diffsol), enabling you to solve ordinary differential equations (ODEs) directly in the browser or Node.js using JavaScript callback functions.
+JavaScript/WebAssembly bindings for [diffsol](https://github.com/martinjrobins/diffsol), enabling you to solve ordinary differential equations (ODEs) directly in the browser or Node.js using JavaScript callback functions. This work initiated from this [github issue and discussion](https://github.com/martinjrobins/diffsol/issues/203)
 
-## Features
-
-- 🚀 **High Performance**: Leverages Rust's diffsol library compiled to WebAssembly
-- 🔧 **Flexible**: Define ODE equations as JavaScript functions
-- 📊 **Multiple Solvers**: Support for both non-stiff and stiff ODE problems
-- 🎯 **Adaptive Step Size**: Automatic step size control with configurable tolerances
-- 📈 **Dense Output**: Interpolate solutions at any time points you specify
+In this we have only used the `nalgebra` for matrix and vectore related task, `faer`,`diffsl` is not compiled to wasm.
 
 
 ### Building from Source
@@ -190,31 +184,6 @@ const result = solve_ode(
 const exact = Math.exp(-a * 5.0);
 console.log('Computed:', result.states[result.states.length-1][0]);
 console.log('Exact:', exact);
-```
-
-### Lotka-Volterra (Predator-Prey)
-
-```javascript
-import init, { solve_ode } from './pkg/diffsol_wasm.js';
-
-await init();
-
-// dx/dt = a*x - b*x*y
-// dy/dt = c*x*y - d*y
-const result = solve_ode(
-    2,
-    new Float64Array([2/3, 4/3, 1.0, 1.0]),  // a, b, c, d
-    40.0,
-    (x, p, t, y) => {
-        y[0] = p[0] * x[0] - p[1] * x[0] * x[1];  // prey
-        y[1] = p[2] * x[0] * x[1] - p[3] * x[1];  // predator
-    },
-    (p, t, y) => {
-        y[0] = 1.0;  // initial prey
-        y[1] = 1.0;  // initial predator
-    },
-    200
-);
 ```
 
 ### Stiff ODE with BDF
