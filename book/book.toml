@@ -1,0 +1,8 @@
+[book]
+authors = ["martinjrobins"]
+language = "en"
+src = "src"
+title = "Diffsol"
+
+[output.html]
+mathjax-support = true
